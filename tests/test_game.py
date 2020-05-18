@@ -1,4 +1,8 @@
-from game_of_greed.game import GameLogic
+from game_of_greed.game import (
+  GameLogic, 
+  straight, 
+  three_pairs,
+)
 
 def test_gamelogic_exists():
   assert GameLogic
@@ -25,4 +29,32 @@ def test_gamelogic_rolldice_onetosix():
     if i<1 or i>6:
       actual = False
   expected = True
+  assert actual == expected
+
+def test_gamelogic_straight_true():
+  test=GameLogic("test")
+  list_created = [6,4,3,5,2,1]
+  actual = test.calculate_score(list_created)
+  expected = 1500
+  assert actual == expected
+
+def test_gamelogic_straight_or_pair_false():
+  test=GameLogic("test")
+  list_created = [6,4,3,5,2,3]
+  actual = test.calculate_score(list_created)
+  expected = 0
+  assert actual == expected
+  
+def test_gamelogic_pairs_true():
+  test=GameLogic("test")
+  list_created = [5,4,3,5,4,3]
+  actual = test.calculate_score(list_created)
+  expected = 1500
+  assert actual == expected
+
+def test_gamelogic_straight_or_pair_false():
+  test=GameLogic("test")
+  list_created = [4,4,4,4,5,6]
+  actual = test.calculate_score(list_created)
+  expected = 0
   assert actual == expected
