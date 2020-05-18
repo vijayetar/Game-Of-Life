@@ -18,15 +18,12 @@ class GameLogic:
 
   def calculate_score(self, dice_rolled):
     '''Roll's score'''
-    ## detect straight 1-6 all numbers present
-    ## detect of 2 of a kind of 3 numbers
-    # detect groups of 3 of a kind or more
-    # detects 1 and 5
-    # example list for straight [1,2,3,4,5,6]
-    if straight(dice_rolled) or three_pairs(dice_rolled):
+    score = 0
+    if len(dice_rolled) == 6 and (straight(dice_rolled) or three_pairs(dice_rolled)):
       return 1500
-    else:
-      return 0
+    score = three_or_more(dice_rolled,score)
+    score = ones_or_fives(dice_rolled, score)
+    return score
 
   @staticmethod
   def roll_dice(n):
@@ -71,6 +68,24 @@ def three_pairs(dice_rolled):
         return False
     return True
 
+def three_or_more(dice_rolled,value):
+  ctr = Counter(dice_rolled)
+  for num in ctr:
+    if ctr[num] > 2:
+      if num == 1:
+        value += 1000 * (ctr[num] - 2)
+      else:
+        value += num * 100 * (ctr[num] - 2)
+  return value
+
+def ones_or_fives(dice_rolled, value):
+  ctr = Counter(dice_rolled)
+  for num in ctr:
+    if num == 1 and ctr[num] < 3:
+      value += 100 * ctr[num]
+    elif num == 5 and ctr[num] < 3:
+      value += 50 * ctr[num]
+  return value
 
 if __name__ == "__main__":
     thomas = GameLogic("Thomas")
@@ -80,4 +95,14 @@ if __name__ == "__main__":
     print(thomas.calculate_score([4,4,5,5,3,3]))
     print(thomas.calculate_score([4,4,4,5,3,3]))
     print(thomas.calculate_score([4,4,4,3]))
+    print(thomas.calculate_score([1,1,5,3]))
+    print(thomas.calculate_score([4,4,4,4]))
+    print(thomas.calculate_score([1,1,1,1]))
+    # print(thomas.calculate_score([1,1,1,1,1,1]))
+    # print(thomas.calculate_score([6,6,6,6,6,6]))
+    print(thomas.calculate_score([5,5,1,1,3]))
+
+
+
+
     
