@@ -1,19 +1,19 @@
 import random
 from collections import Counter
 
-class GameLogic :
-  def __init__(self):
-    pass
+class GameLogic:
+  def __init__(self, name):
+    self.name = name
 
-  def calculate_score(self,(tuple),):
+  def calculate_score(self, tuple):
     '''Roll's score'''
     pass
 
   @staticmethod
   def roll_dice(n):
     '''Input n is integer between 1-6 and output is tuple of n random numbers'''
-    # for i in range(n):
-    #   print(random.randint(1,6))
+    dice_rolled= [random.randint(1,6) for i in range(n)]
+    return dice_rolled
 
 
 class Banker:
@@ -36,3 +36,7 @@ class Banker:
     pass
 
 
+if __name__ == "__main__":
+    thomas = GameLogic("Thomas")
+    print(thomas.name)
+    print(thomas.roll_dice(2))
