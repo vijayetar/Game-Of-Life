@@ -15,6 +15,7 @@ from collections import Counter
 class GameLogic:
   def __init__(self, name):
     self.name = name
+    
   
   def calculate_score(self, dice_rolled):
     '''Roll's score'''
@@ -34,28 +35,28 @@ class GameLogic:
 class Banker(GameLogic):  # Banker now a subclass of GameLogic
   def __init__(self,name):
     self.name = name
-    self.shelf = 0
+    self.shelved = 0
     self.banked = 0
 
   # store unbanked points
   def shelf(self, dice_rolled):
     '''Temporarily store score in the shelf before banking '''
-    self.shelf += self.calculate_score(dice_rolled)
-    return self.shelf
+    self.shelved += self.calculate_score(dice_rolled)
+    return self.shelved
 
   def bank(self):
     '''Add score stored in shelf to the banked score and reset shelf as 0 '''
-    print("this is shelved", self.shelf)
+    print("this is shelved", self.shelved)
     print("this is banked score", self.banked)
-    self.banked += shelved_score
+    self.banked += self.shelved
     self.clear_shelf()
     return self.banked
   
   def clear_shelf(self):
     '''Clears shelf and removes all unbanked points'''
     print("Calling clear shelf")
-    self.shelf = 0
-    return self.shelf
+    self.shelved = 0
+    return self.shelved
 
 # def initial_roll(dice_rolled):
 #   # if (straight(dice_rolled) or three_pairs(dice_rolled)):
@@ -102,16 +103,16 @@ def ones_or_fives(dice_rolled, value):
 if __name__ == "__main__":
     thomas = Banker("Thomas")
     print(thomas.name)
-    shelved_score = 2000
+    thomas.shelf = 2000
     # shelved_score = thomas.shelf([1],0)
     # print(shelved_score)
     # shelved_score = thomas.shelf([1],shelved_score)
     # print(shelved_score)
     # shelved_score= thomas.shelf([1,1,1,1],shelved_score)
     # print(shelved_score)
-    print(thomas.bank(shelved_score))
-    shelved_score=1000
-    print(thomas.bank(shelved_score))
+    print(thomas.bank())
+    thomas.shelf=1000
+    print(thomas.bank())
 
 
 
