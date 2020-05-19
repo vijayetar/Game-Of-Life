@@ -1,5 +1,7 @@
 import random
 from collections import Counter
+from textwrap import dedent
+
 
 # player one starts game logic
 # rolls 6 dice
@@ -100,19 +102,45 @@ def ones_or_fives(dice_rolled, value):
       value += 50 * ctr[num]
   return value
 
+class Game:
+
+  def __init__(self, roller=None):
+    self.roller = roller
+
+
+  def play(self):
+    # print()
+    print("Welcome to Game of Greed")
+    
+    response = input("Wanna play?")
+    if response == "y":
+      pass
+    elif response == "n":
+      print("OK. Maybe another time")
+    else:
+      print("Invalid response, try again.")
+      self.game_play()
+
+
+
+
+
+
 if __name__ == "__main__":
-    thomas = Banker("Thomas")
-    print(thomas.name)
-    thomas.shelf = 2000
-    # shelved_score = thomas.shelf([1],0)
-    # print(shelved_score)
-    # shelved_score = thomas.shelf([1],shelved_score)
-    # print(shelved_score)
-    # shelved_score= thomas.shelf([1,1,1,1],shelved_score)
-    # print(shelved_score)
-    print(thomas.bank())
-    thomas.shelf=1000
-    print(thomas.bank())
+    # thomas = Banker("Thomas")
+    # print(thomas.name)
+    # thomas.shelf = 2000
+    # # shelved_score = thomas.shelf([1],0)
+    # # print(shelved_score)
+    # # shelved_score = thomas.shelf([1],shelved_score)
+    # # print(shelved_score)
+    # # shelved_score= thomas.shelf([1,1,1,1],shelved_score)
+    # # print(shelved_score)
+    # print(thomas.bank())
+    # thomas.shelf=1000
+    # print(thomas.bank())
+  thomas=Game()
+  thomas.game_play()
 
 
 
