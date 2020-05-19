@@ -66,22 +66,56 @@ def test_gamelogic_three_or_more_2():
   assert actual == expected
 
 def test_gamelogic_zilch_roll():
-    test=GameLogic("test")
-    list_created = [3,2,2,4,6,6]
-    actual = test.calculate_score(list_created)
-    expected = 0
-    assert actual == expected
+  test=GameLogic("test")
+  list_created = [3,2,2,4,6,6]
+  actual = test.calculate_score(list_created)
+  expected = 0
+  assert actual == expected
   
 def test_gamelogic_three_or_more_3():
-    test=GameLogic("test")
-    list_created = [3,3,3,4,4,4]
-    actual = test.calculate_score(list_created)
-    expected = 700
-    assert actual == expected
+  test=GameLogic("test")
+  list_created = [3,3,3,4,4,4]
+  actual = test.calculate_score(list_created)
+  expected = 700
+  assert actual == expected
 
 def test_gamelogic_three_or_more_4():
-    test=GameLogic("test")
-    list_created = [5,5,5,5,5,3]
-    actual = test.calculate_score(list_created)
-    expected = 1500
-    assert actual == expected
+  test=GameLogic("test")
+  list_created = [5,5,5,5,5,3]
+  actual = test.calculate_score(list_created)
+  expected = 1500
+  assert actual == expected
+
+def test_shelf_return():
+  test = Banker('test')
+  list_created = [1,2,3,4,5,6]
+  actual = test.shelf(list_created)
+  expected = 1500
+  assert actual == expected
+
+def test_shelf_stored():
+  test = Banker('test')
+  list_created = [6,5,4,3,2,1]
+  test.shelf(list_created)
+  actual = test.shelved
+  expected = 1500
+  assert actual == expected
+
+def test_bank_stored():
+  test = Banker('test')
+  test.banked = 5000
+  test.shelved = 2000
+  test.bank()
+  bank_actual = test.banked
+  bank_expected = 7000
+  shelf_actual = test.shelved
+  shelf_expected = 0
+  assert bank_actual == bank_expected and shelf_actual == shelf_expected
+
+def test_bank_returned():
+  test = Banker('test')
+  test.banked = 2345
+  test.shelved = 7143
+  actual = test.bank()
+  expected = 9488
+  assert actual == expected
