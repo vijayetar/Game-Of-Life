@@ -15,16 +15,16 @@ def test_Banker_exists():
 
 def test_gamelogic_rolldice_six():
   test = GameLogic("test")
-  list_created = test.roll_dice(6)
-  actual = len(list_created)
+  tuple_created = test.roll_dice(6)
+  actual = len(tuple_created)
   expected = 6
   assert actual == expected
 
 def test_gamelogic_rolldice_onetosix():
   test=GameLogic("test")
-  list_created = test.roll_dice(10)
+  tuple_created = test.roll_dice(10)
   actual = True
-  for i in list_created:
+  for i in tuple_created:
     if i<1 or i>6:
       actual = False
   expected = True

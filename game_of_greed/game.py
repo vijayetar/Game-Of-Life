@@ -28,32 +28,34 @@ class GameLogic:
   @staticmethod
   def roll_dice(n):
     '''Input n is integer between 1-6 and output is tuple of n random numbers'''
-    dice_rolled = [random.randint(1,6) for i in range(n)]
+    dice_rolled = tuple(random.randint(1,6) for i in range(n))
     return dice_rolled
 
-
 class Banker(GameLogic):  # Banker now a subclass of GameLogic
-  def __init__(self):
-    pass
+  def __init__(self,name):
+    self.name = name
+    self.shelf = 0
+    self.banked = 0
 
   # store unbanked points
-  def shelf(self):
+  def shelf(self, dice_rolled):
     '''Temporarily store score in the shelf before banking '''
-    # player has to select die to place on the shelf
-    # the score on the shelf needs to reflect the score of the dice selected
-    # then the n should vary based on number selected
-    # player should play again 
-    # return temporarily stored points
-    pass
+    self.shelf += self.calculate_score(dice_rolled)
+    return self.shelf
 
   def bank(self):
-    '''Add score stored in shelf to the total score and reset shelf as 0 '''
-    # return total scored
-    pass
+    '''Add score stored in shelf to the banked score and reset shelf as 0 '''
+    print("this is shelved", self.shelf)
+    print("this is banked score", self.banked)
+    self.banked += shelved_score
+    self.clear_shelf()
+    return self.banked
   
   def clear_shelf(self):
     '''Clears shelf and removes all unbanked points'''
-    pass
+    print("Calling clear shelf")
+    self.shelf = 0
+    return self.shelf
 
 # def initial_roll(dice_rolled):
 #   # if (straight(dice_rolled) or three_pairs(dice_rolled)):
@@ -98,19 +100,24 @@ def ones_or_fives(dice_rolled, value):
   return value
 
 if __name__ == "__main__":
-    thomas = GameLogic("Thomas")
+    thomas = Banker("Thomas")
     print(thomas.name)
-    print(thomas.calculate_score([6,3,4,5,2,1]))
-    print(thomas.calculate_score([6,3,4,5,2,1]))
-    print(thomas.calculate_score([4,4,5,5,3,3]))
-    print(thomas.calculate_score([4,4,4,5,3,3]))
-    print(thomas.calculate_score([4,4,4,3]))
-    print(thomas.calculate_score([1,1,5,3]))
-    print(thomas.calculate_score([4,4,4,4]))
-    print(thomas.calculate_score([1,1,1,1]))
-    # print(thomas.calculate_score([1,1,1,1,1,1]))
-    # print(thomas.calculate_score([6,6,6,6,6,6]))
-    print(thomas.calculate_score([5,5,1,1,3]))
+    shelved_score = 2000
+    # shelved_score = thomas.shelf([1],0)
+    # print(shelved_score)
+    # shelved_score = thomas.shelf([1],shelved_score)
+    # print(shelved_score)
+    # shelved_score= thomas.shelf([1,1,1,1],shelved_score)
+    # print(shelved_score)
+    print(thomas.bank(shelved_score))
+    shelved_score=1000
+    print(thomas.bank(shelved_score))
+
+
+
+    # # print(thomas.calculate_score([1,1,1,1,1,1]))
+    # # print(thomas.calculate_score([6,6,6,6,6,6]))
+    # print(thomas.calculate_score([5,5,1,1,3]))
 
 
 
