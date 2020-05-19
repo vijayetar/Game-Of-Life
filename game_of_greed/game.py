@@ -15,20 +15,20 @@ from collections import Counter
 class GameLogic:
   def __init__(self, name):
     self.name = name
-
+  
   def calculate_score(self, dice_rolled):
     '''Roll's score'''
     score = 0
     if len(dice_rolled) == 6 and (straight(dice_rolled) or three_pairs(dice_rolled)):
       return 1500
-    score = three_or_more(dice_rolled,score)
+    score = three_or_more(dice_rolled, score)
     score = ones_or_fives(dice_rolled, score)
     return score
 
   @staticmethod
   def roll_dice(n):
     '''Input n is integer between 1-6 and output is tuple of n random numbers'''
-    dice_rolled= [random.randint(1,6) for i in range(n)]
+    dice_rolled = [random.randint(1,6) for i in range(n)]
     return dice_rolled
 
 
@@ -39,6 +39,10 @@ class Banker(GameLogic):  # Banker now a subclass of GameLogic
   # store unbanked points
   def shelf(self):
     '''Temporarily store score in the shelf before banking '''
+    # player has to select die to place on the shelf
+    # the score on the shelf needs to reflect the score of the dice selected
+    # then the n should vary based on number selected
+    # player should play again 
     # return temporarily stored points
     pass
 
@@ -51,16 +55,22 @@ class Banker(GameLogic):  # Banker now a subclass of GameLogic
     '''Clears shelf and removes all unbanked points'''
     pass
 
+# def initial_roll(dice_rolled):
+#   # if (straight(dice_rolled) or three_pairs(dice_rolled)):
+#   #   return 1500
+#   # return 0
+
 def straight(dice_rolled):
-  ''' function checks if 1-6 straight is rolled '''
+  ''' for 6 dice rolled function checks if 1-6 straight is rolled '''
   reference_list = [1,2,3,4,5,6]
   if len(dice_rolled)==6:
     dice_rolled.sort()
     if reference_list == dice_rolled:
       return True
+  return False
       
 def three_pairs(dice_rolled):   
-  ''' function checks if 3 pairs of numbers are rolled ''' 
+  ''' for 6 dice rolled, this function checks if 3 pairs of numbers are rolled ''' 
   ctr = Counter(dice_rolled)
   if len(ctr) == 3:
     for num in ctr:
