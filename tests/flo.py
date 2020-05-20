@@ -1,5 +1,5 @@
 import builtins
-from game_of_greed.game import Game
+from game_of_greed.game import Banker
 
 
 class Flo:
@@ -21,6 +21,7 @@ class Flo:
 
         self.responses = []
         self.rolls = []
+        self.name = 'test' # Eugene changed this. Vij wanted you to know that
 
         with open(self.path) as file:
             for line in file.readlines():
@@ -45,7 +46,7 @@ class Flo:
 
         flo = Flo(path)
 
-        game = Game(flo._mock_roller)
+        game = Banker(flo.name, flo._mock_roller) # flo.name added
 
         game.play()
 

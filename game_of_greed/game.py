@@ -37,47 +37,61 @@ class Game:
     self.round = 0
 
   def play(self):
-    # print()
     print("Welcome to Game of Greed")
-    
     response = input("Wanna play?")
     if response == "y":
-      pass
+      self.game_round()
     elif response == "n":
       print("OK. Maybe another time")
     else:
       print("Invalid response, try again.")
-      self.game_play()
+      self.play()
 
   def game_round(self):
     self.round += 1
-    self.roller = self.roll_dice(6)
-    # reformat result before printing
+    print(f"Starting round {self.round}")
+    # self.roller = self.roll_dice(6)
     self.shelve_or_quit()
 
-  def shelve_or_quit(self):
-    print(self.roller)
+  def shelve_or_quit(self, n=6):
+    self.roller = self.roll_dice(n)
+    # print(self.roller)
+    # print(type(self.roller))
+    str_roll = ""
+    for num in self.roller:
+      str_roll += str(num) + ", "
+    print(str_roll[:-2])
     response = input("Enter dice to keep (no spaces), or (q)uit: ")
     if response == "q":
-      print("I QUIT!")
-      # self.exit
+      self.exit()
     elif isinstance(int(response), int):
-      print("I'm a number!")
       self.check_dice(response)  
-  
+
   def check_dice(self, response):
     dice_to_be_shelved = [int(i) for i in response]
-    print(dice_to_be_shelved)
+    # print(dice_to_be_shelved)
     dice_rolled = list(self.roller)
-    print(dice_rolled)
+    # print(dice_rolled)
     for num in dice_to_be_shelved:
       if num in dice_rolled:
         dice_rolled.remove(num)
-        print(dice_rolled)
+        # print(dice_rolled)
       else:
         print("Cheater!!! Or possibly made a typo...")
         self.shelve_or_quit()
+    print(self.calculate_score(dice_to_be_shelved))
+    self.shelf(dice_to_be_shelved)
+    n = n-len(dice_to_be_shelved)
+    self.shelve_or_quit(n)
+    
+  
+  
 
+
+  def exit(self):
+    print(f"Total score is {self.banked} points")
+    print(f"Thanks for playing. You earned {self.banked} points")
+    return
 
 
 class GameLogic(Game):
@@ -185,7 +199,7 @@ if __name__ == "__main__":
     # print(thomas.bank())
     # thomas.shelf=1000
     # print(thomas.bank())
-  thomas=Banker('Thomas')
+  thomas=Banker('Thomas', [1,2,3,4,5,6])
   thomas.game_round()
 
 
