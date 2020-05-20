@@ -1,11 +1,11 @@
 from game_of_greed.game import (
+  Game,
   GameLogic, 
   straight, 
   three_pairs,
   three_or_more,
   ones_or_fives,
   Banker,
-  Game,
 )
 from tests.flo import Flo
 
@@ -133,3 +133,4 @@ def test_bank_returned():
 
 def test_flo_wanna_play():
   Flo.test('tests/flow/wanna_play.txt')
+
