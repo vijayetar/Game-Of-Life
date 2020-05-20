@@ -1,22 +1,104 @@
 import random
+import sys
 from collections import Counter
+from textwrap import dedent
 
-# player one starts game logic
-# rolls 6 dice
-## generates random numbers between 1-6
-# logic has to check if all six are scoring dice, then it is all banked
-# player can keep playing if all six are scoring dice
-# shelves some of the dice
-# shelf scores shows the score of dice in shelf
-# player has option to bank all the dice rolled and complete turn or continue playing
-# player rolls again with remaining dice
-# restart from line 6
+# round()
+#   self.round_number += 1
+#   roll_dice()
+#   user_input: select dice to be shelved
+#     calculate_score
+#   user_input: bank
+#     self.bank()
+#     call self.round()
+#   user_input: quit
+#     self.exit() 
+#   farkle:
+#     call self.round()
 
-class GameLogic:
-  def __init__(self, name):
+
+class Game:
+
+  def __init__(self, name, roller=None):
+    self.roller = roller
     self.name = name
+    self.round = 0
+    self.dice = 6
+
+  def play(self):
+    print("Welcome to Game of Greed")
+    response = input("Wanna play?")
+    if response == "y":
+      self.game_round()
+    elif response == "n":
+      print("OK. Maybe another time")
+    else:
+      print("Invalid response, try again.")
+      self.play()
+
+  def game_round(self):
+    self.round += 1
+    print(f"Starting round {self.round}")
+    self.roller = self.roll_dice(self.dice)
+    self.shelve_or_quit()
+
+  def shelve_or_quit(self):
+    # self.roller = self.roll_dice(self.dice)
+    # print(self.roller)
+    # print(type(self.roller))
+    str_roll = ""
+    for num in self.roller:
+      str_roll += str(num) + ", "
+    print(str_roll[:-2])
+    response = input("Enter dice to keep (no spaces), or (q)uit: ")
+    if response == "q":
+      self.exit()
+    elif isinstance(int(response), int):
+      self.check_dice(response)  
+
+  def check_dice(self, response):
+    dice_to_be_shelved = [int(i) for i in response]
+    # print(dice_to_be_shelved)
+    dice_rolled = list(self.roller)
+    # print(dice_rolled)
+    for num in dice_to_be_shelved:
+      if num in dice_rolled:
+        dice_rolled.remove(num)
+        # print(dice_rolled)
+      else:
+        print("Cheater!!! Or possibly made a typo...")
+        self.shelve_or_quit()
+    print(self.calculate_score(dice_to_be_shelved))
+    self.shelf(dice_to_be_shelved)
+    self.dice = self.dice-len(dice_to_be_shelved)
+    self.roll_bank_quit()
+
+  def roll_bank_quit(self):
+    print(f"You have {self.shelved} unbanked points and {self.dice} dice remaining")
+    response = input("(r)oll again, (b)ank your points or (q)uit ")
+    if response == "r":
+      self.roller = self.roll_dice(self.dice)
+      self.shelve_or_quit()
+    elif response == "b":
+      self.bank()
+      self.dice = 6
+      self.game_round()
+    elif response == "q":
+      self.exit()
+    else:
+      print("Invalid input.")
+      self.roll_bank_quit
+
+  def exit(self):
+    print(f"Total score is {self.banked} points")
+    print(f"Thanks for playing. You earned {self.banked} points")
+    sys.exit(0)
+
+class GameLogic(Game):
+
+  def __init__(self, name, roller=None):
+    super().__init__(name, roller=roller)
     
-  
   def calculate_score(self, dice_rolled):
     '''Roll's score'''
     score = 0
@@ -33,8 +115,8 @@ class GameLogic:
     return dice_rolled
 
 class Banker(GameLogic):  # Banker now a subclass of GameLogic
-  def __init__(self,name):
-    self.name = name
+  def __init__(self, name, roller=None):
+    super().__init__(name, roller=roller)
     self.shelved = 0
     self.banked = 0
 
@@ -46,8 +128,8 @@ class Banker(GameLogic):  # Banker now a subclass of GameLogic
 
   def bank(self):
     '''Add score stored in shelf to the banked score and reset shelf as 0 '''
-    print("this is shelved", self.shelved)
-    print("this is banked score", self.banked)
+    # print("this is shelved", self.shelved)
+    # print("this is banked score", self.banked)
     self.banked += self.shelved
     self.clear_shelf()
     return self.banked
@@ -100,19 +182,25 @@ def ones_or_fives(dice_rolled, value):
       value += 50 * ctr[num]
   return value
 
+
+
+
+
 if __name__ == "__main__":
-    thomas = Banker("Thomas")
-    print(thomas.name)
-    thomas.shelf = 2000
-    # shelved_score = thomas.shelf([1],0)
-    # print(shelved_score)
-    # shelved_score = thomas.shelf([1],shelved_score)
-    # print(shelved_score)
-    # shelved_score= thomas.shelf([1,1,1,1],shelved_score)
-    # print(shelved_score)
-    print(thomas.bank())
-    thomas.shelf=1000
-    print(thomas.bank())
+    # thomas = Banker("Thomas")
+    # print(thomas.name)
+    # thomas.shelf = 2000
+    # # shelved_score = thomas.shelf([1],0)
+    # # print(shelved_score)
+    # # shelved_score = thomas.shelf([1],shelved_score)
+    # # print(shelved_score)
+    # # shelved_score= thomas.shelf([1,1,1,1],shelved_score)
+    # # print(shelved_score)
+    # print(thomas.bank())
+    # thomas.shelf=1000
+    # print(thomas.bank())
+  thomas=Banker('Thomas', [1,2,3,4,5,6])
+  thomas.play()
 
 
 

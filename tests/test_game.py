@@ -1,17 +1,28 @@
 from game_of_greed.game import (
+  Game,
   GameLogic, 
   straight, 
   three_pairs,
   three_or_more,
   ones_or_fives,
-  Banker
+  Banker,
 )
+from tests.flo import Flo
+
+
 
 def test_gamelogic_exists():
   assert GameLogic
 
 def test_Banker_exists():
   assert Banker
+
+def test_Game_exists():
+  assert Game
+
+def test_Flo_exists():
+  assert Flo
+
 
 def test_gamelogic_rolldice_six():
   test = GameLogic("test")
@@ -119,3 +130,10 @@ def test_bank_returned():
   actual = test.bank()
   expected = 9488
   assert actual == expected
+
+def test_flo_wanna_play():
+  Flo.test('tests/flow/wanna_play.txt')
+
+# def test_flo_do_wanna_play_then_quit():
+#   Flo.test('tests/flow/do_wanna_play_then_quit.txt')
+
