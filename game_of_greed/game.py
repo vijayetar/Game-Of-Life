@@ -1,19 +1,7 @@
 import random
+import sys
 from collections import Counter
 from textwrap import dedent
-
-
-# player one starts game logic
-# rolls 6 dice
-## generates random numbers between 1-6
-# logic has to check if all six are scoring dice, then it is all banked
-# player can keep playing if all six are scoring dice
-# shelves some of the dice
-# shelf scores shows the score of dice in shelf
-# player has option to bank all the dice rolled and complete turn or continue playing
-# player rolls again with remaining dice
-# restart from line 6
-# Count rounds within GameLogic that increments with either end of round or zilch
 
 # round()
 #   self.round_number += 1
@@ -35,6 +23,7 @@ class Game:
     self.roller = roller
     self.name = name
     self.round = 0
+    self.dice = 6
 
   def play(self):
     print("Welcome to Game of Greed")
@@ -50,11 +39,11 @@ class Game:
   def game_round(self):
     self.round += 1
     print(f"Starting round {self.round}")
-    # self.roller = self.roll_dice(6)
+    self.roller = self.roll_dice(self.dice)
     self.shelve_or_quit()
 
-  def shelve_or_quit(self, n=6):
-    self.roller = self.roll_dice(n)
+  def shelve_or_quit(self):
+    # self.roller = self.roll_dice(self.dice)
     # print(self.roller)
     # print(type(self.roller))
     str_roll = ""
@@ -81,18 +70,29 @@ class Game:
         self.shelve_or_quit()
     print(self.calculate_score(dice_to_be_shelved))
     self.shelf(dice_to_be_shelved)
-    n = n-len(dice_to_be_shelved)
-    self.shelve_or_quit(n)
-    
-  
-  
+    self.dice = self.dice-len(dice_to_be_shelved)
+    self.roll_bank_quit()
 
+  def roll_bank_quit(self):
+    print(f"You have {self.shelved} unbanked points and {self.dice} dice remaining")
+    response = input("(r)oll again, (b)ank your points or (q)uit ")
+    if response == "r":
+      self.roller = self.roll_dice(self.dice)
+      self.shelve_or_quit()
+    elif response == "b":
+      self.bank()
+      self.dice = 6
+      self.game_round()
+    elif response == "q":
+      self.exit()
+    else:
+      print("Invalid input.")
+      self.roll_bank_quit
 
   def exit(self):
     print(f"Total score is {self.banked} points")
     print(f"Thanks for playing. You earned {self.banked} points")
-    return
-
+    sys.exit(0)
 
 class GameLogic(Game):
 
@@ -128,8 +128,8 @@ class Banker(GameLogic):  # Banker now a subclass of GameLogic
 
   def bank(self):
     '''Add score stored in shelf to the banked score and reset shelf as 0 '''
-    print("this is shelved", self.shelved)
-    print("this is banked score", self.banked)
+    # print("this is shelved", self.shelved)
+    # print("this is banked score", self.banked)
     self.banked += self.shelved
     self.clear_shelf()
     return self.banked
@@ -200,7 +200,7 @@ if __name__ == "__main__":
     # thomas.shelf=1000
     # print(thomas.bank())
   thomas=Banker('Thomas', [1,2,3,4,5,6])
-  thomas.game_round()
+  thomas.play()
 
 
 
