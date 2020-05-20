@@ -1,6 +1,6 @@
 import builtins
 from game_of_greed.game import Banker
-
+import sys
 
 class Flo:
 
@@ -40,6 +40,9 @@ class Flo:
                     self.old_print("roll" + str(roll))
 
                     self.rolls.append(roll)
+
+                    # self.rolls = self.rolls[0] #it was array within an array, and so changed it with index 0
+                    
 
     @staticmethod
     def test(path):
@@ -88,6 +91,7 @@ class Flo:
                 ), f"line {i + 1} - actual:{actual} - expected:{expected}"
 
         builtins.print = self.old_print
+        # builtins.print = self._mock_roller()
         builtins.input = self.old_input
 
 

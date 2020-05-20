@@ -7,6 +7,9 @@ from game_of_greed.game import (
   ones_or_fives,
   Banker,
 )
+from collections import Counter
+import sys
+
 from tests.flo import Flo
 
 
@@ -134,6 +137,15 @@ def test_bank_returned():
 def test_flo_wanna_play():
   Flo.test('tests/flow/wanna_play.txt')
 
-# def test_flo_do_wanna_play_then_quit():
-#   Flo.test('tests/flow/do_wanna_play_then_quit.txt')
+def test_flo_do_wanna_play_then_quit():
+  Flo.test('tests/flow/do_wanna_play_then_quit.txt')
+
+# def test_flo_cheat_and_fix():
+#    Flo.test('tests/flow/cheat_and_fix.txt')
+
+# def test_flo_bank_one_roll_then_quit():
+#   Flo.test('tests/flow/bank_one_roll_then_quit.txt')
+
+# def test_flo_bank_first_for_two_rounds():
+#   Flo.test('tests/flow/bank_first_for_two_rounds.txt')
 
