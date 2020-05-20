@@ -28,3 +28,15 @@ Vij Rangarajan
     - `clear_shelf` should remove all unbanked points.
 ### Pull Request
 [PR #3](https://github.com/vijayetar/Game-Of-Life/pull/3)
+
+## 2nd Milestone
+### Features
+- Application should implement all features from previous version
+- Application should simulate rolling between 1 and 6 dice
+- Application should allow user to set aside dice each roll
+- Application should allow “banking” current score or rolling again.
+- Application should keep track of total score
+- Application should keep track of current round
+- Application should have automated tests to ensure proper operation
+### Pull Request
+[PR #4](https://github.com/vijayetar/Game-Of-Life/pull/4)
