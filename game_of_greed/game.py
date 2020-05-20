@@ -41,6 +41,7 @@ class Game:
     print(f"Starting round {self.round}")
     print(f"Rolling {self.dice} dice...")
     dice_roll = self.roller(self.dice)
+    self.zilch(dice_roll)
     self.shelve_or_quit(dice_roll)
 
   def shelve_or_quit(self, dice_roll=None):
@@ -75,9 +76,11 @@ class Game:
     response = input("(r)oll again, (b)ank your points or (q)uit ")
     if response == "r":
       dice_roll = self.roller(self.dice)
+      self.zilch(dice_roll)
       self.shelve_or_quit(dice_roll)
     elif response == "b":
       self.bank()
+      print(f'You banked {self.shelved} points in round {self.round}')
       self.dice = 6
       self.game_round()
     elif response == "q":
@@ -85,6 +88,7 @@ class Game:
     else:
       print("Invalid input.")
       self.roll_bank_quit
+
 
   def exit(self):
     print(f"Total score is {self.banked} points")
@@ -136,14 +140,18 @@ class Banker(GameLogic):  # Banker now a subclass of GameLogic
     self.shelved = 0
     return self.shelved
 
-
-def zilch_roll(dice_rolled):
-  pass
-
+  def zilch(self, dice_rolled):
+    if self.calculate_score(dice_rolled) == 0:
+      print('Ya busted!')
+      print(f"You banked {self.shelved} in round {self.round}")
+      self.dice = 6
+      self.shelved = 0
+      self.game_round()
 
 def straight(dice_rolled):
   ''' for 6 dice rolled function checks if 1-6 straight is rolled '''
   reference_list = [1,2,3,4,5,6]
+  dice_rolled = list(dice_rolled)
   if len(dice_rolled)==6:
     dice_rolled.sort()
     if reference_list == dice_rolled:
