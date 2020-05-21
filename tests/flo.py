@@ -21,7 +21,6 @@ class Flo:
 
         self.responses = []
         self.rolls = []
-        self.name = 'test' # Eugene changed this. Vij wanted you to know that
 
         with open(self.path) as file:
             for line in file.readlines():
@@ -37,7 +36,7 @@ class Flo:
 
                     roll = [int(item) for item in line.split(",")]
 
-                    self.old_print("roll" + str(roll))
+                    # self.old_print("roll" + str(roll))
 
                     self.rolls.append(roll)
 
@@ -46,11 +45,13 @@ class Flo:
 
         flo = Flo(path)
 
-        game = Banker(flo.name, flo._mock_roller) # flo.name added
-
-        game.play()
-
-        flo._exit()
+        game = Banker(flo._mock_roller)
+        try:
+          game.play()
+        except SystemExit:
+          flo.old_print('no problemo')
+        finally:
+          flo._exit()
 
     def _mock_roller(self, num):
         return self.rolls.pop(0)
@@ -92,5 +93,4 @@ class Flo:
 
 
 if __name__ == "__main__":
-    # Flo.start("tests/flow/wanna_play.txt")
     Flo.start("tests/flow/bank_one_roll_then_quit.txt")

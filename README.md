@@ -40,3 +40,15 @@ Vij Rangarajan
 - Application should have automated tests to ensure proper operation
 ### Pull Request
 [PR #4](https://github.com/vijayetar/Game-Of-Life/pull/4)
+
+## 3rd Milestone
+### Features
+- Application should implement features from versions 1 and 2
+- Should handle when cheating occurs.
+  - Or just typos.
+  - E.g. roll = [1,3,5,2] and user selects 1, 1, 1, 1, 1, 1
+- Should allow user to continue rolling with 6 new dice when all dice have scored in current turn.
+- Handle zilch
+  - No points for round, and round is over ensure proper operation
+### Pull Request
+[PR #5](https://github.com/vijayetar/Game-Of-Life/pull/5)
