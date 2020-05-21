@@ -8,6 +8,7 @@ class Game:
     self.roller = roller or GameLogic.roll_dice
     self.round = 0
     self.dice = 6
+    self.max_rounds = 20
 
   def play(self):
     print("Welcome to Game of Greed")
@@ -22,6 +23,8 @@ class Game:
 
   def game_round(self):
     self.round += 1
+    if self.round > self.max_rounds:
+      self.exit()
     print(f"Starting round {self.round}")
     print(f"Rolling {self.dice} dice...")
     dice_roll = self.roller(self.dice)
@@ -77,18 +80,18 @@ class Game:
       print("Invalid input.")
       self.roll_bank_quit
 
-
   def exit(self):
     print(f"Total score is {self.banked} points")
     print(f"Thanks for playing. You earned {self.banked} points")
     sys.exit(0)
 
-class GameLogic(Game):
+class GameLogic():
 
   def __init__(self, roller=None):
     super().__init__(roller=roller)
-    
-  def calculate_score(self, dice_rolled):
+  
+  @staticmethod
+  def calculate_score(dice_rolled):
     '''Roll's score'''
     score = 0
     if len(dice_rolled) == 6 and (straight(dice_rolled) or three_pairs(dice_rolled)):
@@ -102,8 +105,24 @@ class GameLogic(Game):
     '''Input n is integer between 1-6 and output is tuple of n random numbers'''
     dice_rolled = tuple(random.randint(1,6) for i in range(n))
     return dice_rolled
+  
+  @staticmethod
+  def get_scorers(dice_rolled):
+    total_score = GameLogic.calculate_score(dice_rolled)
+    print("this is total score in get_scorers", total_score)
+    returned_dice = ''
+    # dice_rolled = list(dice_roll)
+    #iterate over dice_rolled list and determine which of the numbers is scoring dice
+    print(f'dice_rolled: {dice_rolled}')
+    for index, num in enumerate(dice_rolled):
+      temporary_roll = list(dice_rolled)
+      temporary_roll.pop(index)
+      if not total_score == GameLogic.calculate_score(temporary_roll):
+        returned_dice += str(num)
+    return returned_dice
+    # return the list of scoring dice
 
-class Banker(GameLogic):  # Banker now a subclass of GameLogic
+class Banker(Game):  # Banker now a subclass of GameLogic
   def __init__(self, roller=None):
     super().__init__(roller=roller)
     self.shelved = 0
@@ -112,7 +131,7 @@ class Banker(GameLogic):  # Banker now a subclass of GameLogic
   # store unbanked points
   def shelf(self, dice_rolled):
     '''Temporarily store score in the shelf before banking '''
-    self.shelved += self.calculate_score(dice_rolled)
+    self.shelved += GameLogic.calculate_score(dice_rolled)
     return self.shelved
 
   def bank(self):
@@ -129,7 +148,7 @@ class Banker(GameLogic):  # Banker now a subclass of GameLogic
     return self.shelved
 
   def zilch(self, dice_rolled):
-    if self.calculate_score(dice_rolled) == 0:
+    if GameLogic.calculate_score(dice_rolled) == 0:
       str_roll = ""
       for num in dice_rolled:
         str_roll += str(num) + ","
@@ -140,6 +159,7 @@ class Banker(GameLogic):  # Banker now a subclass of GameLogic
       print(f'Total score is {self.banked} points')
       self.dice = 6
       self.game_round()
+
 
 def straight(dice_rolled):
   ''' for 6 dice rolled function checks if 1-6 straight is rolled '''
