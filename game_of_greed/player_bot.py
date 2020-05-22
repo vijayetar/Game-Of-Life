@@ -21,6 +21,7 @@ class BasePlayer:
         self.dice = 6
         self.unbanked = 0
         self.running_total = 0
+        self.ai_name = ''
 
     def reset(self):
         builtins.print = self.old_print
@@ -48,7 +49,7 @@ class BasePlayer:
             player.reset()
 
         print(
-            f"{num_games} games (maybe) played with average score of {mega_total // num_games}"
+            f"{num_games} games (maybe) played by {player.ai_name} with average score of {mega_total // num_games}"
         )
 
 class Naysayer(BasePlayer):
@@ -60,6 +61,7 @@ class NervousNellie(BasePlayer):
     def __init__(self):
         super().__init__()
         self.roll = None
+        self.ai_name = 'Nervous Nellie'
 
     def _mock_print(self, *args, **kwargs):
         first_arg = args[0]
@@ -86,6 +88,7 @@ class Skynet(BasePlayer):
   def __init__(self):
     super().__init__()
     self.roll = None
+    self.ai_name = 'Skynet'
 
   def _mock_print(self, *args, **kwargs):
     first_arg = args[0]
