@@ -55,15 +55,15 @@ Vij Rangarajan
 
 ## 4th Milestone
 ### Features
-- [x] Create an AI Bot to play Game of Greed
-  - [x] The only method available for use from `Game` class is `play`.
-  - [x] All static methods of `GameLogic` class are available.
-  - [x] All other interactions with game can take place **ONLY** via the I/O features of the game.
-- [x] Your Bot class should be added to `player_bot.py` file with name of your choosing.
-  - [x] `Skynet` is online.
-- [x] User should be able to see your bot play by executing `player_bot.py` from terminal.
-- [x] Application should implement features from previous classes
-- [x] Added Gamelogic static method `only_scoring_dice`.
-  - [x] User is only allowed to "shelve" dice that will increase their score.
+- Create an AI Bot to play Game of Greed
+  - The only method available for use from `Game` class is `play`.
+  - All static methods of `GameLogic` class are available.
+  - All other interactions with game can take place **ONLY** via the I/O features of the game.
+- Your Bot class should be added to `player_bot.py` file with name of your choosing.
+  - `Skynet` is online.
+- User should be able to see your bot play by executing `player_bot.py` from terminal.
+- Application should implement features from previous classes
+- Added Gamelogic static method `only_scoring_dice`.
+  - User is only allowed to "shelve" dice that will increase their score.
 ### Pull Request
 [PR #6](https://github.com/vijayetar/Game-Of-Life/pull/6)
