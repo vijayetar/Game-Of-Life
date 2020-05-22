@@ -52,3 +52,18 @@ Vij Rangarajan
   - No points for round, and round is over ensure proper operation
 ### Pull Request
 [PR #5](https://github.com/vijayetar/Game-Of-Life/pull/5)
+
+## 4th Milestone
+### Features
+- [x] Create an AI Bot to play Game of Greed
+  - [x] The only method available for use from `Game` class is `play`.
+  - [x] All static methods of `GameLogic` class are available.
+  - [x] All other interactions with game can take place **ONLY** via the I/O features of the game.
+- [x] Your Bot class should be added to `player_bot.py` file with name of your choosing.
+  - [x] `Skynet` is online.
+- [x] User should be able to see your bot play by executing `player_bot.py` from terminal.
+- [x] Application should implement features from previous classes
+- [x] Added Gamelogic static method `only_scoring_dice`.
+  - [x] User is only allowed to "shelve" dice that will increase their score.
+### Pull Request
+[PR #5](https://github.com/vijayetar/Game-Of-Life/pull/5)

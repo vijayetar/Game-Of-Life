@@ -19,6 +19,8 @@ class BasePlayer:
         builtins.input = self._mock_input
         self.total_score = 0
         self.dice = 6
+        self.unbanked = 0
+        self.running_total = 0
 
     def reset(self):
         builtins.print = self.old_print
@@ -96,26 +98,37 @@ class Skynet(BasePlayer):
   def _mock_input(self, *args, **kwargs):
     prompt = args[0]
     if prompt.startswith('Wanna play?'):
+      self.old_print('Wanna play? y')
       return 'y'
     elif prompt.startswith('Enter dice'):
+      self.old_print(f'Rolling {len(self.roll)} dice...')
+      self.old_print(self.roll)
       scorers = GameLogic.smarter_get_scorers(self.roll)
+      self.old_print(scorers)
       keepers = ''.join([str(ch) for ch in scorers])
+      self.unbanked += GameLogic.calculate_score(scorers)
+      self.old_print(f"Enter dice to keep (no spaces), or (q)uit: {keepers}")
       self.dice = self.dice - len(keepers)
+      self.old_print(f'You have {self.unbanked} unbanked points and {self.dice} dice remaining')
       return keepers
     elif prompt.startswith('(r)oll again'):
       if self.dice < 3:
         self.dice = 6
+        self.old_print("(r)oll again, (b)ank your points or (q)uit b")
+        self.old_print(f"Skynet banked {self.unbanked} points")
+        self.running_total += self.unbanked
+        self.unbanked = 0
+        self.old_print(f"Total score is {self.running_total} points")
+        self.old_print("Starting next round")
         return 'b'
       else:
+        self.old_print("(r)oll again, (b)ank your points or (q)uit r")
         return 'r'
     else:
         raise ValueError(f"Unrecognized prompt {prompt}")
 
 if __name__ == "__main__":
     # Naysayer.play()
-    NervousNellie.play(1000)
-    Skynet.play(1000)
-    Skynet.play(1000)
-    Skynet.play(1000)
-    Skynet.play(1000)
-    Skynet.play(1000)
+    Skynet.play(10)
+    NervousNellie.play(10)
+    

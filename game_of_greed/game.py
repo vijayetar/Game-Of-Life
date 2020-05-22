@@ -123,23 +123,20 @@ class GameLogic():
   @staticmethod
   def get_scorers(dice_rolled):
     total_score = GameLogic.calculate_score(dice_rolled)
-    returned_dice = ''
-    # dice_rolled = list(dice_roll)
+    returned_dice = []
     #iterate over dice_rolled list and determine which of the numbers is scoring dice
     for index, num in enumerate(dice_rolled):
       temporary_roll = list(dice_rolled)
       temporary_roll.pop(index)
       if not total_score == GameLogic.calculate_score(temporary_roll):
-        returned_dice += str(num)
-    return returned_dice
+        returned_dice.append(num)
     # return the list of scoring dice
+    return returned_dice
 
   @staticmethod
   def smarter_get_scorers(dice_rolled):
     total_score = GameLogic.calculate_score(dice_rolled)
-    print("this is total score in get_scorers", total_score)
     returned_dice = []
-    # dice_rolled = list(dice_roll)
     #iterate over dice_rolled list and determine which of the numbers is scoring dice
     print(f'dice_rolled: {dice_rolled}')
     for index, num in enumerate(dice_rolled):
@@ -157,7 +154,6 @@ class GameLogic():
       returned_dice.remove(5)
     if five_counter == 1 and (len(returned_dice) > 1 and not len(returned_dice) == 6) and len(dice_rolled) == 6:
       returned_dice.remove(5)
-    returned_dice = ''.join([str(ch) for ch in returned_dice])
     return returned_dice
     # return the list of scoring dice
 
