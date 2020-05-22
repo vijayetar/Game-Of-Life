@@ -73,4 +73,4 @@ Vij Rangarajan
 - Fixed testing script for changes made to `GameLogic` class.
 - Added bot names to `player_bot.py` output.
 ### Pull Request
-[PR #7](https://github.com/vijayetar/Game-Of-Life/pull/7)
+[PR #6](https://github.com/vijayetar/Game-Of-Life/pull/6)
