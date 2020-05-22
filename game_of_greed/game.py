@@ -40,8 +40,11 @@ class Game:
     response = input("Enter dice to keep (no spaces), or (q)uit: ")
     if response == "q":
       self.exit()
-    elif isinstance(int(response), int):
-      self.check_dice(response, dice_roll)  
+    elif isinstance(int(response), int) and GameLogic.only_scoring_dice(response):
+      self.check_dice(response, dice_roll)
+    else:
+      print('Invalid response. Only enter scoring dice or "q"')
+      self.shelve_or_quit(dice_roll)  
 
   def check_dice(self, response, dice_roll):
     dice_to_be_shelved = []
@@ -107,10 +110,35 @@ class GameLogic():
     return dice_rolled
   
   @staticmethod
+  def only_scoring_dice(dice_selected):
+    selected_dice = tuple(int(char) for char in dice_selected)
+    total_score = GameLogic.calculate_score(selected_dice)
+    for index, num in enumerate(selected_dice):
+      temporary_roll = list(selected_dice)
+      temporary_roll.pop(index)
+      if total_score == GameLogic.calculate_score(temporary_roll):
+        return False
+    return True
+
+  @staticmethod
   def get_scorers(dice_rolled):
     total_score = GameLogic.calculate_score(dice_rolled)
-    print("this is total score in get_scorers", total_score)
     returned_dice = ''
+    # dice_rolled = list(dice_roll)
+    #iterate over dice_rolled list and determine which of the numbers is scoring dice
+    for index, num in enumerate(dice_rolled):
+      temporary_roll = list(dice_rolled)
+      temporary_roll.pop(index)
+      if not total_score == GameLogic.calculate_score(temporary_roll):
+        returned_dice += str(num)
+    return returned_dice
+    # return the list of scoring dice
+
+  @staticmethod
+  def smarter_get_scorers(dice_rolled):
+    total_score = GameLogic.calculate_score(dice_rolled)
+    print("this is total score in get_scorers", total_score)
+    returned_dice = []
     # dice_rolled = list(dice_roll)
     #iterate over dice_rolled list and determine which of the numbers is scoring dice
     print(f'dice_rolled: {dice_rolled}')
@@ -118,7 +146,18 @@ class GameLogic():
       temporary_roll = list(dice_rolled)
       temporary_roll.pop(index)
       if not total_score == GameLogic.calculate_score(temporary_roll):
-        returned_dice += str(num)
+        returned_dice.append(num)
+    five_counter = 0
+    if len(returned_dice) > 1:
+      for num in returned_dice:
+        if num == 5:
+          five_counter += 1
+    if five_counter == 2 and (len(returned_dice) > 2 and not len(returned_dice) == 6) and len(dice_rolled) == 6:
+      returned_dice.remove(5)
+      returned_dice.remove(5)
+    if five_counter == 1 and (len(returned_dice) > 1 and not len(returned_dice) == 6) and len(dice_rolled) == 6:
+      returned_dice.remove(5)
+    returned_dice = ''.join([str(ch) for ch in returned_dice])
     return returned_dice
     # return the list of scoring dice
 

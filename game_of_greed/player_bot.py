@@ -11,8 +11,6 @@ import re
 
 from game import Game, GameLogic, Banker
 
-# , straight, three_pairs, three_or_more, ones_or_fives 
-
 class BasePlayer:
     def __init__(self):
         self.old_print = print
@@ -20,6 +18,7 @@ class BasePlayer:
         builtins.print = self._mock_print
         builtins.input = self._mock_input
         self.total_score = 0
+        self.dice = 6
 
     def reset(self):
         builtins.print = self.old_print
@@ -49,7 +48,6 @@ class BasePlayer:
         print(
             f"{num_games} games (maybe) played with average score of {mega_total // num_games}"
         )
-
 
 class Naysayer(BasePlayer):
     def _mock_input(self, *args, **kwargs):
@@ -82,7 +80,42 @@ class NervousNellie(BasePlayer):
         else:
             raise ValueError(f"Unrecognized prompt {prompt}")
 
+class Skynet(BasePlayer):
+  def __init__(self):
+    super().__init__()
+    self.roll = None
+
+  def _mock_print(self, *args, **kwargs):
+    first_arg = args[0]
+    first_char = first_arg[0]
+    if first_char.isdigit():
+      self.roll = tuple(int(char) for char in first_arg.split(','))
+    elif first_arg.startswith('Thanks for playing.'):
+      self.total_score = int(re.findall(r'\d+', first_arg)[0])
+
+  def _mock_input(self, *args, **kwargs):
+    prompt = args[0]
+    if prompt.startswith('Wanna play?'):
+      return 'y'
+    elif prompt.startswith('Enter dice'):
+      scorers = GameLogic.smarter_get_scorers(self.roll)
+      keepers = ''.join([str(ch) for ch in scorers])
+      self.dice = self.dice - len(keepers)
+      return keepers
+    elif prompt.startswith('(r)oll again'):
+      if self.dice < 3:
+        self.dice = 6
+        return 'b'
+      else:
+        return 'r'
+    else:
+        raise ValueError(f"Unrecognized prompt {prompt}")
 
 if __name__ == "__main__":
     # Naysayer.play()
-    NervousNellie.play(100)
+    NervousNellie.play(1000)
+    Skynet.play(1000)
+    Skynet.play(1000)
+    Skynet.play(1000)
+    Skynet.play(1000)
+    Skynet.play(1000)
