@@ -67,3 +67,10 @@ Vij Rangarajan
   - User is only allowed to "shelve" dice that will increase their score.
 ### Pull Request
 [PR #6](https://github.com/vijayetar/Game-Of-Life/pull/6)
+
+# Hot Fix
+## Testing Errors
+- Fixed testing script for changes made to `GameLogic` class.
+- Added bot names to `player_bot.py` output.
+### Pull Request
+[PR #7](https://github.com/vijayetar/Game-Of-Life/pull/7)
