@@ -66,4 +66,4 @@ Vij Rangarajan
 - [x] Added Gamelogic static method `only_scoring_dice`.
   - [x] User is only allowed to "shelve" dice that will increase their score.
 ### Pull Request
-[PR #5](https://github.com/vijayetar/Game-Of-Life/pull/5)
+[PR #6](https://github.com/vijayetar/Game-Of-Life/pull/6)
